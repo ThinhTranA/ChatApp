@@ -14,7 +14,7 @@ namespace ChatApp.Web.Server
         /// <summary>
         /// The scoped instance of the <see cref="ApplicationDbContext"/>
         /// </summary>
-        public static ApplicationDbContext ApplicationDbContext => IoCContainer.Provider.GetService<ApplicationDbContext>());
+        public static ApplicationDbContext ApplicationDbContext => IoCContainer.Provider.GetService<ApplicationDbContext>();
     }
 
     /// <summary>
