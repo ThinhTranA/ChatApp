@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ChatApp.Web.Server
@@ -15,16 +16,18 @@ namespace ChatApp.Web.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            using(var context = new ApplicationDbContext())
-            {
-                context.Database.EnsureCreated();
-            }
+            //Add ApplicationDBContext to DI
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(@"Server=localhost\SQLEXPRESS;Database=entityframework;Trusted_Connection=True;MultipleActiveResultSets=true"));
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
+            // Store instance of the DI service provider so our application can access it anywhere
+            IoCContainer.Provider = (ServiceProvider)serviceProvider;
+
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
             else

@@ -10,17 +10,16 @@ namespace ChatApp.Web.Server
 
         #endregion
 
-        public ApplicationDbContext()
+        /// <summary>
+        /// Default constructor, expecting database options passed in
+        /// </summary>
+        /// <param name="options">The database context options</param>
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options ) : base(options)
         {
 
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
-
-            optionsBuilder.UseSqlServer(@"Server=localhost\SQLEXPRESS;Database=entityframework;Trusted_Connection=True;MultipleActiveResultSets=true");
-        }
+   
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
