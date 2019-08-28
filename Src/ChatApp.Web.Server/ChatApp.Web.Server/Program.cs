@@ -19,11 +19,9 @@ namespace ChatApp.Web.Server
 
         public static IWebHost BuildWebHost(string[] args)
         {
-            return new WebHostBuilder()
-                .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseStartup<Startup>()
-                .Build();
+            return WebHost.CreateDefaultBuilder()
+               .UseStartup<Startup>()
+               .Build();
         }
     }
 }

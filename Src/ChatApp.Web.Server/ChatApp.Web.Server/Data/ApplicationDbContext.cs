@@ -6,7 +6,7 @@ namespace ChatApp.Web.Server
 {
     public class ApplicationDbContext : DbContext
     {
-        public string Id => Guid.NewGuid().ToString("N");
+       
 
         #region Public Properties
         public DbSet<SettingsDataModel> Settings { get; set; }
