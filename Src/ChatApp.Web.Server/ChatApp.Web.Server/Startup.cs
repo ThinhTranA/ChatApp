@@ -26,7 +26,7 @@ namespace ChatApp.Web.Server
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
             // Store instance of the DI service provider so our application can access it anywhere
-            IoCContainer.Provider = (ServiceProvider)serviceProvider;
+            IoCContainer.Provider = (ServiceProvider)app.ApplicationServices;
 
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();

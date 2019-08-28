@@ -11,6 +11,11 @@ namespace ChatApp.Web.Server.Controllers
         /// </summary>
         protected ApplicationDbContext mContext;
         #endregion
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="context">The injected context</param>
         public HomeController(ApplicationDbContext context)
         {
             mContext = context;
