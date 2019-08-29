@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -108,11 +109,35 @@ namespace ChatApp.Web.Server.Controllers
             return Content($"This is a private area. Welcome {HttpContext.User.Identity.Name}", "text/html");
         }
 
+        [Route("logout")]
+        public async Task<IActionResult> SignOutAsync()
+        {
+            await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
+            return Content("done");
+        }
+
         [Route("login")]
         public async Task<IActionResult> Login(string returnUrl)
         {
-            await mSignInManager.PasswordSignInAsync("user1", "password", true, true);
-            return Content("testing", "text/html");
+            //Sign out any previous sessions
+            await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
+
+            // Sign user in with the valid credentials
+            var result = await mSignInManager.PasswordSignInAsync("user1", "password", true, true);
+
+            //If successful...
+            if (result.Succeeded)
+            {
+                if (string.IsNullOrEmpty(returnUrl))
+                    // Go to home
+                    return  RedirectToAction(nameof(Index)) ;
+
+                // otherwise, go to the return url
+                return Redirect(returnUrl);
+            }
+               
+
+            return Content("Failed to login", "text/html");
         }
     }
 }
