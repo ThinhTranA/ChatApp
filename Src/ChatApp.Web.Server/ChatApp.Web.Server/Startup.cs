@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -58,6 +59,10 @@ namespace ChatApp.Web.Server
             {
                 // Redirect to /login
                 options.LoginPath = "/login";
+
+                //Change cookie timeout
+                options.ExpireTimeSpan = TimeSpan.FromSeconds(15);
+
             });
 
             services.AddMvc();
