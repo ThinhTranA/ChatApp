@@ -53,6 +53,13 @@ namespace ChatApp.Web.Server
                 options.Password.RequireNonAlphanumeric = false;
             });
 
+            // Change login URL
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Redirect to /login
+                options.LoginPath = "/login";
+            });
+
             services.AddMvc();
         }
 

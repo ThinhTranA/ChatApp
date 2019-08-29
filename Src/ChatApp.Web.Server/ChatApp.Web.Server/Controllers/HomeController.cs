@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
@@ -78,6 +79,10 @@ namespace ChatApp.Web.Server.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Creates our single user for now
+        /// </summary>
+        /// <returns></returns>
         [Route("create")]
         public async
          Task<IActionResult> CreateUserAsync()
@@ -85,14 +90,29 @@ namespace ChatApp.Web.Server.Controllers
 
             var result = await mUserManager.CreateAsync(new ApplicationUser
             {
-                UserName = "angelsix",
-                Email = "contact@angelsix.com"
+                UserName = "name1",
+                Email = "contact@gmail.com"
             }, "password");
 
             if(result.Succeeded)
                 return Content("User was created", "text/html");
 
             return Content("User creation failed", "text/html");
+        }
+
+        // Private area
+        [Authorize]
+        [Route("private")]
+        public IActionResult Private()
+        {
+            return Content($"This is a private area. Welcome {HttpContext.User.Identity.Name}", "text/html");
+        }
+
+        [Route("login")]
+        public async Task<IActionResult> Login(string returnUrl)
+        {
+            await mSignInManager.PasswordSignInAsync("user1", "password", true, true);
+            return Content("testing", "text/html");
         }
     }
 }
