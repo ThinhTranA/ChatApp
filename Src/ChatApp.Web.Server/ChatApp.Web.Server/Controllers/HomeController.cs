@@ -23,7 +23,7 @@ namespace ChatApp.Web.Server.Controllers
 
         public IActionResult Index()
         {
-            var mContext = IoC.ApplicationDbContext;
+           // var mContext = IoC.ApplicationDbContext;
 
             //Make sure we have the database
             mContext.Database.EnsureCreated();
