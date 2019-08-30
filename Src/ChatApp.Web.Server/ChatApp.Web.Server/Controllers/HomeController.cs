@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Web.Server.Controllers
 {
+    /// <summary>
+    /// Manages the standard web server pages
+    /// </summary>
     public class HomeController : Controller
     {
         #region Protected Members

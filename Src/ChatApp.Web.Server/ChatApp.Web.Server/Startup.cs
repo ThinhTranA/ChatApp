@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ChatApp.Web.Server
 {
@@ -40,6 +42,24 @@ namespace ChatApp.Web.Server
                 // Adds a provider that generates unique keys and hashed for things like
                 // forgot password links, phone number verification code etc...
                 .AddDefaultTokenProviders();
+
+            // Add JWT Authentication for api clients
+            services.AddAuthentication().
+                AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = IoCContainer.Configuration["Jwt:Issuer"],
+                        ValidAudience = IoCContainer.Configuration["Jwt:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(IoCContainer.Configuration["Jwt:SecretKey"])),
+                    };
+                });
+
+
 
             // Change password policy
             services.Configure<IdentityOptions>(options =>
