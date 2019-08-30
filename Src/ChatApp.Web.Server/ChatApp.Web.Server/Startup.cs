@@ -17,10 +17,8 @@ namespace ChatApp.Web.Server
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            IoCContainer.Configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
@@ -28,7 +26,7 @@ namespace ChatApp.Web.Server
         {
             //Add ApplicationDBContext to DI
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(IoCContainer.Configuration.GetConnectionString("DefaultConnection")));
 
             // AddIdentity adds cookie based authentication
             // Adds scoped classes for things like UserManager, SignInManager, PasswordHashers etc...
@@ -61,7 +59,7 @@ namespace ChatApp.Web.Server
                 options.LoginPath = "/login";
 
                 //Change cookie timeout
-                options.ExpireTimeSpan = TimeSpan.FromSeconds(15);
+                options.ExpireTimeSpan = TimeSpan.FromSeconds(1500);
 
             });
 
