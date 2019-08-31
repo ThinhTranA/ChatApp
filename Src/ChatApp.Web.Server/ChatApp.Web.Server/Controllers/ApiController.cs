@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -7,6 +9,16 @@ using System.Text;
 
 namespace ChatApp.Web.Server.Controllers
 {
+
+    public class AuthorizeTokenAttribute : AuthorizeAttribute
+    {
+        public AuthorizeTokenAttribute()
+        {
+            AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme;
+        }
+
+    }
+
     /// <summary>
     /// Manages the web API calls
     /// </summary>
