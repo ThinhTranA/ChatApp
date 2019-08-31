@@ -36,8 +36,8 @@ namespace ChatApp.Web.Server.Controllers
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
-                new Claim(JwtRegisteredClaimNames.NameId,"unknownuser"),
                 new Claim(JwtRegisteredClaimNames.Email, email),
+                new Claim(ClaimsIdentity.DefaultNameClaimType, username),
                 new Claim("my key", "my value"),
             };
 
@@ -60,6 +60,14 @@ namespace ChatApp.Web.Server.Controllers
             {
                 token = new JwtSecurityTokenHandler().WriteToken(token)
             });                         
+        }
+
+        [AuthorizeToken]
+        [Route("api/private")]
+        public IActionResult Private()
+        {
+            var user = HttpContext.User;
+            return Ok(new { privateData = $"some secret for{user.Identity.Name}" });
         }
     }
 }
